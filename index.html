@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The fastest way to find a snack, see the price, and get to pickup." />
+  <title>Snack Shack — Grab it. Go.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #112021;
+      --muted: #617072;
+      --paper: #f5f6ee;
+      --card: #fffef8;
+      --line: #dfe6dc;
+      --lime: #d9f04d;
+      --orange: #ff744b;
+      --blue: #cdeef1;
+      --shadow: 0 20px 55px rgba(18, 47, 43, .12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM Sans', sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; border: 0; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+    .shell { max-width: 1180px; margin: auto; padding: 24px 28px 56px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -.04em; }
+    .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; background: var(--ink); color: var(--lime); border-radius: 11px; font-size: 19px; transform: rotate(-7deg); }
+    nav { display: flex; align-items: center; gap: 20px; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+    .cart-btn { display: flex; align-items: center; gap: 8px; background: var(--ink); color: white; border-radius: 999px; padding: 11px 15px; font-size: 14px; font-weight: 700; }
+    .cart-count { display: grid; place-items: center; width: 21px; height: 21px; border-radius: 50%; background: var(--lime); color: var(--ink); font-size: 12px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(330px, .95fr); gap: 56px; align-items: center; padding: 76px 0 58px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 7px; color: #356061; background: var(--blue); padding: 7px 11px; border-radius: 99px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .dot { width: 7px; height: 7px; background: #279b67; border-radius: 50%; box-shadow: 0 0 0 4px rgba(39,155,103,.14); }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(46px, 7vw, 84px); line-height: .93; letter-spacing: -.075em; max-width: 630px; margin: 22px 0 21px; }
+    h1 span { color: var(--orange); }
+    .hero-copy { color: var(--muted); font-size: 18px; line-height: 1.55; max-width: 480px; margin: 0; }
+    .welcome-note { margin: 12px 0 0; color: #356061; font-size: 13px; font-weight: 700; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 29px; flex-wrap: wrap; }
+    .primary, .secondary { padding: 14px 18px; border-radius: 13px; font-weight: 700; }
+    .primary { background: var(--ink); color: white; }
+    .secondary { background: white; color: var(--ink); border: 1px solid var(--line); }
+    .primary:hover, .cart-btn:hover { background: #284345; }
+    .secondary:hover { border-color: var(--ink); }
+    .visual { position: relative; min-height: 370px; background: var(--orange); border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); }
+    .visual:before { content: ''; position: absolute; width: 350px; height: 350px; right: -90px; top: -100px; border-radius: 50%; background: rgba(255,255,255,.18); }
+    .visual:after { content: 'SNACK'; position: absolute; right: 20px; bottom: 12px; font: 700 73px/.8 'Space Grotesk', sans-serif; color: rgba(255,255,255,.16); letter-spacing: -.1em; }
+    .board { position: absolute; left: 33px; top: 34px; width: min(76%, 290px); padding: 19px; color: var(--ink); background: var(--lime); transform: rotate(-4deg); box-shadow: 13px 16px 0 rgba(17,32,33,.15); }
+    .board small { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .board h2 { margin: 15px 0 22px; font: 700 43px/.9 'Space Grotesk', sans-serif; letter-spacing: -.07em; }
+    .board-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid rgba(17,32,33,.25); font-size: 13px; font-weight: 700; }
+    .sticker { position: absolute; right: 25px; bottom: 74px; width: 105px; height: 105px; display: grid; place-items: center; text-align: center; border-radius: 50%; background: var(--blue); color: var(--ink); font: 700 17px/.94 'Space Grotesk', sans-serif; transform: rotate(9deg); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; margin: 17px 0 20px; }
+    h2.section-title { margin: 0; font: 700 32px 'Space Grotesk', sans-serif; letter-spacing: -.06em; }
+    .section-note { color: var(--muted); font-size: 14px; }
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .filter { white-space: nowrap; padding: 9px 14px; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; font-size: 13px; font-weight: 700; }
+    .filter.active, .filter:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    .menu-tools { display: flex; gap: 9px; align-items: center; margin: 18px 0; }
+    .search { flex: 1; min-width: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: white; color: var(--ink); outline: none; }
+    .search:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(217,240,77,.35); }
+    .quick-picks { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 8px; margin-bottom: 39px; }
+    .quick-card { min-width: 180px; padding: 13px; background: var(--ink); color: white; border-radius: 14px; }
+    .quick-card span { display: block; color: var(--lime); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .quick-card strong { display: block; margin: 7px 0 3px; font-size: 15px; }
+    .quick-card small { color: #b7c3c1; font-size: 12px; }
+    .tag { display: inline-block; margin-top: 7px; padding: 4px 7px; border-radius: 99px; background: #e2f4d7; color: #2c6343; font-size: 10px; font-weight: 700; }
+    .tag.allergy { background: #fff0bf; color: #795b12; }
+    .special { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 16px 18px; margin-bottom: 30px; border-radius: 16px; background: var(--orange); color: var(--ink); }
+    .special strong { display: block; font: 700 21px 'Space Grotesk', sans-serif; letter-spacing: -.04em; }
+    .special span { display: block; margin-top: 4px; font-size: 13px; }
+    .special .price { white-space: nowrap; font-size: 20px; }
+    .sold-out { opacity: .48; position: relative; }
+    .sold-out:after { content: 'Sold out'; position: absolute; top: 10px; right: 10px; padding: 5px 7px; border-radius: 99px; background: var(--ink); color: white; font-size: 10px; font-weight: 700; }
+    .sold-out .add { pointer-events: none; background: var(--line); }
+    .pickup-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 13px; margin-top: 13px; }
+    .info-card { padding: 18px; background: white; border: 1px solid var(--line); border-radius: 16px; }
+    .info-card h3 { margin: 0 0 7px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .info-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .map { min-height: 120px; display: grid; place-items: center; text-align: center; background: repeating-linear-gradient(135deg, #e4f3e8 0 9px, #d6ebdf 9px 11px); color: #2c6343; }
+    .map strong { display: block; font-size: 18px; }
+    .combo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 18px; }
+    .combo { padding: 14px; background: #fff0bf; border-radius: 14px; }
+    .combo strong { display: block; font-size: 14px; }
+    .combo span { display: block; margin-top: 5px; color: #765d19; font-size: 12px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .item { background: var(--card); border: 1px solid var(--line); border-radius: 17px; padding: 14px; min-height: 220px; display: flex; flex-direction: column; transition: transform .18s, box-shadow .18s; }
+    .item:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(18,47,43,.09); }
+    .item-icon { display: grid; place-items: center; height: 94px; margin-bottom: 14px; background: var(--blue); border-radius: 12px; font-size: 49px; }
+    .item:nth-child(2) .item-icon, .item:nth-child(6) .item-icon { background: #fff0bf; }
+    .item:nth-child(3) .item-icon, .item:nth-child(7) .item-icon { background: #ffd9ca; }
+    .item:nth-child(4) .item-icon, .item:nth-child(8) .item-icon { background: #dfd5f5; }
+    .item h3 { margin: 0 0 4px; font-size: 15px; }
+    .item-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .price { font-size: 14px; font-weight: 700; }
+    .add { width: 32px; height: 32px; background: var(--lime); color: var(--ink); border-radius: 10px; font-size: 20px; line-height: 1; font-weight: 700; }
+    .add:hover { background: var(--orange); }
+    .how { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 13px; margin-top: 62px; }
+    .step { padding: 19px; background: var(--ink); color: white; border-radius: 17px; min-height: 126px; }
+    .step-number { color: var(--lime); font: 700 25px 'Space Grotesk', sans-serif; }
+    .step h3 { margin: 13px 0 5px; font-size: 16px; }
+    .step p { margin: 0; color: #b7c3c1; font-size: 13px; line-height: 1.45; }
+    .toast { position: fixed; left: 50%; bottom: 24px; z-index: 4; padding: 13px 17px; border-radius: 12px; background: var(--ink); color: white; box-shadow: var(--shadow); transform: translate(-50%, 130px); transition: transform .25s; font-size: 14px; }
+    .toast.show { transform: translate(-50%, 0); }
+    .drawer { position: fixed; inset: 0; z-index: 3; display: none; background: rgba(17,32,33,.34); }
+    .drawer.open { display: block; }
+    .drawer-card { position: absolute; right: 0; top: 0; height: 100%; width: min(400px, 100%); padding: 28px; display: flex; flex-direction: column; background: var(--paper); box-shadow: -12px 0 45px rgba(0,0,0,.16); }
+    .drawer-top { display: flex; justify-content: space-between; align-items: center; }
+    .drawer h2 { margin: 0; font: 700 28px 'Space Grotesk', sans-serif; }
+    .close { width: 34px; height: 34px; border-radius: 50%; background: var(--line); font-size: 20px; }
+    #cart-items { flex: 1; min-height: 0; margin: 26px 0; display: grid; align-content: start; gap: 10px; overflow-y: auto; padding-right: 5px; }
+    .cart-line { display: flex; justify-content: space-between; gap: 10px; background: white; border-radius: 12px; padding: 13px; font-size: 14px; }
+    .cart-line-info { display: grid; gap: 3px; }
+    .cart-line-info small { color: var(--muted); font-size: 12px; }
+    .qty-controls { display: flex; align-items: center; gap: 8px; }
+    .qty-controls button { width: 25px; height: 25px; border-radius: 7px; background: var(--line); color: var(--ink); font-weight: 700; }
+    .qty-controls button:hover { background: var(--lime); }
+    .empty { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .clear-cart { width: 100%; margin: 0 0 10px; padding: 10px; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 10px; font-size: 13px; font-weight: 700; }
+    .clear-cart:hover { color: var(--ink); border-color: var(--ink); }
+    .checkout { width: 100%; display: flex; justify-content: space-between; padding: 15px; border-radius: 12px; background: var(--lime); color: var(--ink); font-weight: 700; }
+    .drink-suggestion { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 10px; padding: 11px 12px; border-radius: 11px; background: var(--blue); font-size: 12px; }
+    .drink-suggestion button { padding: 7px 9px; border-radius: 8px; background: var(--ink); color: white; font-size: 12px; font-weight: 700; }
+    @media (max-width: 800px) { .shell { padding: 19px 18px 42px; } nav a { display: none; } .hero { grid-template-columns: 1fr; gap: 32px; padding: 58px 0 42px; } .visual { min-height: 300px; } .menu-grid { grid-template-columns: repeat(2, 1fr); } .how, .pickup-info { grid-template-columns: 1fr; margin-top: 43px; } .combo-grid { grid-template-columns: 1fr; } .section-head { display: block; } .section-note { display: block; margin-top: 6px; } }
+    @media (max-width: 420px) { h1 { font-size: 53px; } .menu-grid { gap: 9px; } .item { padding: 10px; min-height: 195px; } .item-icon { height: 75px; font-size: 39px; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><span class="brand-mark">+</span> Snack Shack</div>
+      <nav><a href="#menu">Menu</a><a href="#how">How it works</a><button class="cart-btn" id="open-cart">Bag <span class="cart-count" id="cart-count">0</span></button></nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Open now · until 3:30 PM</div>
+          <h1>Hungry?<br><span>Handled.</span></h1>
+          <p class="hero-copy">Your fastest route to something good. See what’s ready, pick your snack, and swing by the Shack.</p>
+          <p class="welcome-note">Something for everyone: vegetarian and allergy-aware picks are marked.</p>
+          <div class="hero-actions"><button class="primary" onclick="document.querySelector('#menu').scrollIntoView({behavior:'smooth'})">See today’s snacks <span>↓</span></button><button class="secondary" onclick="showToast('Pickup is by the library doors.')">Find pickup spot ↗</button></div>
+        </div>
+        <div class="visual" aria-label="Snack Shack menu board graphic">
+          <div class="board"><small>Today’s quick picks</small><h2>GOOD<br>TO GO.</h2><div class="board-row"><span>Granola bar</span><span>$1.00</span></div><div class="board-row"><span>Cold drink</span><span>$1.50</span></div><div class="board-row"><span>Fruit cup</span><span>$2.00</span></div></div>
+          <div class="sticker">NO WAIT.<br>JUST SNACK.</div>
+        </div>
+      </section>
+
+      <div class="quick-picks" aria-label="Quick picks"><div class="quick-card"><span>Under 5 minutes</span><strong>Water + granola bar</strong><small>$2.00 · grab and go</small></div><div class="quick-card"><span>Popular today</span><strong>Pretzel + fruit punch</strong><small>$3.00 · sweet + salty</small></div><div class="quick-card"><span>Lunch break</span><strong>Pizza slice + iced tea</strong><small>$4.50 · filling combo</small></div></div>
+      <div class="special"><div><strong>Daily special: Lunch combo</strong><span>Turkey sandwich + cold water. Fast, filling, and ready at pickup.</span></div><span class="price">$5.00</span></div>
+
+      <section id="menu">
+        <div class="section-head"><div><h2 class="section-title">Today’s menu</h2><span class="section-note">Prices shown clearly. Ready in the fridge or on the shelf.</span></div><div class="filters"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="sweet">Sweet</button><button class="filter" data-filter="salty">Salty</button><button class="filter" data-filter="fresh">Fresh</button></div></div>
+        <div class="menu-tools"><input class="search" id="search" type="search" placeholder="Search snacks or lunch..." aria-label="Search snacks or lunch"><button class="filter" id="under-two">Under $2</button></div>
+        <div class="menu-grid">
+          <article class="item" data-category="sweet"><div class="item-icon">🍪</div><h3>Chocolate chip cookie</h3><span class="tag">Popular</span><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Chocolate chip cookie" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥨</div><h3>Soft pretzel</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Soft pretzel" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍎</div><h3>Apple</h3><span class="tag">Vegetarian</span><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Apple" data-price="0.75">+</button></div></article>
+          <article class="item sold-out" data-category="fresh"><div class="item-icon">🧃</div><h3>Fruit punch</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Fruit punch" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥔</div><h3>Sea salt chips</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Sea salt chips" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍫</div><h3>Chewy granola bar</h3><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Chewy granola bar" data-price="1.00">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🥤</div><h3>Cold water</h3><span class="tag allergy">Dairy-free</span><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Cold water" data-price="1.00">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🧀</div><h3>Cheese crackers</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Cheese crackers" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🧁</div><h3>Mini brownie</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Mini brownie" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🍿</div><h3>Popcorn</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Popcorn" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍌</div><h3>Banana</h3><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Banana" data-price="0.75">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🥛</div><h3>Yogurt cup</h3><div class="item-meta"><span class="price">$2.00</span><button class="add" data-name="Yogurt cup" data-price="2.00">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥜</div><h3>Trail mix</h3><div class="item-meta"><span class="price">$1.75</span><button class="add" data-name="Trail mix" data-price="1.75">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍓</div><h3>Fruit gummies</h3><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Fruit gummies" data-price="1.00">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍩</div><h3>Glazed donut</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Glazed donut" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🌽</div><h3>Corn chips</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Corn chips" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍊</div><h3>Orange</h3><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Orange" data-price="0.75">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🧋</div><h3>Fruit smoothie</h3><div class="item-meta"><span class="price">$2.50</span><button class="add" data-name="Fruit smoothie" data-price="2.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥨</div><h3>Pretzel bites</h3><div class="item-meta"><span class="price">$1.75</span><button class="add" data-name="Pretzel bites" data-price="1.75">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍬</div><h3>Chewy candy</h3><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Chewy candy" data-price="0.75">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍰</div><h3>Mini muffin</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Mini muffin" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥒</div><h3>Veggie sticks</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Veggie sticks" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍋</div><h3>Lemonade</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Lemonade" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🧀</div><h3>Cheese stick</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Cheese stick" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍚</div><h3>Rice crispy treat</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Rice crispy treat" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🧊</div><h3>Iced tea</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Iced tea" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍮</div><h3>Pudding cup</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Pudding cup" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥜</div><h3>Peanut butter crackers</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Peanut butter crackers" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍎</div><h3>Applesauce cup</h3><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Applesauce cup" data-price="1.00">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍫</div><h3>Chocolate milk</h3><div class="item-meta"><span class="price">$2.00</span><button class="add" data-name="Chocolate milk" data-price="2.00">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍪</div><h3>Mini cookies</h3><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Mini cookies" data-price="1.00">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍇</div><h3>Fruit cup</h3><div class="item-meta"><span class="price">$2.00</span><button class="add" data-name="Fruit cup" data-price="2.00">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🍭</div><h3>Fruit popsicle</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Fruit popsicle" data-price="1.25">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🥯</div><h3>Mini bagel</h3><div class="item-meta"><span class="price">$1.75</span><button class="add" data-name="Mini bagel" data-price="1.75">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🍐</div><h3>Pear</h3><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Pear" data-price="0.75">+</button></div></article>
+          <article class="item" data-category="sweet"><div class="item-icon">🥣</div><h3>Breakfast cereal cup</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Breakfast cereal cup" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="salty"><div class="item-icon">🌮</div><h3>Snack mix</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Snack mix" data-price="1.50">+</button></div></article>
+          <article class="item" data-category="fresh"><div class="item-icon">🥥</div><h3>Coconut water</h3><div class="item-meta"><span class="price">$2.25</span><button class="add" data-name="Coconut water" data-price="2.25">+</button></div></article>
+        </div>
+      </section>
+
+      <section id="lunch-menu" style="margin-top: 62px;">
+        <div class="section-head"><div><h2 class="section-title">Lunch menu</h2><span class="section-note">More filling picks for a bigger break.</span></div><span class="eyebrow">Pay at pickup</span></div>
+        <div class="combo-grid"><div class="combo"><strong>Lunch + drink</strong><span>Turkey sandwich + water · $5.00</span></div><div class="combo"><strong>Veggie combo</strong><span>Veggie wrap + iced tea · $5.00</span></div><div class="combo"><strong>Pizza break</strong><span>Pizza slice + fruit cup · $4.50</span></div></div>
+        <div class="menu-grid">
+          <article class="item"><div class="item-icon">🥪</div><h3>Turkey sandwich</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="Turkey sandwich" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🌯</div><h3>Veggie wrap</h3><span class="tag">Vegetarian</span><div class="item-meta"><span class="price">$4.00</span><button class="add" data-name="Veggie wrap" data-price="4.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🍕</div><h3>Pizza slice</h3><div class="item-meta"><span class="price">$3.00</span><button class="add" data-name="Pizza slice" data-price="3.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🥗</div><h3>Chicken salad cup</h3><div class="item-meta"><span class="price">$3.50</span><button class="add" data-name="Chicken salad cup" data-price="3.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🍝</div><h3>Pasta salad</h3><div class="item-meta"><span class="price">$3.50</span><button class="add" data-name="Pasta salad" data-price="3.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🫓</div><h3>Cheese quesadilla</h3><div class="item-meta"><span class="price">$3.25</span><button class="add" data-name="Cheese quesadilla" data-price="3.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🌭</div><h3>Hot dog</h3><div class="item-meta"><span class="price">$3.25</span><button class="add" data-name="Hot dog" data-price="3.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🍔</div><h3>Cheeseburger</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="Cheeseburger" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🌮</div><h3>Bean taco</h3><div class="item-meta"><span class="price">$3.00</span><button class="add" data-name="Bean taco" data-price="3.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🍲</div><h3>Soup cup</h3><div class="item-meta"><span class="price">$3.00</span><button class="add" data-name="Soup cup" data-price="3.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🍗</div><h3>Chicken tenders</h3><div class="item-meta"><span class="price">$4.25</span><button class="add" data-name="Chicken tenders" data-price="4.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🥯</div><h3>Breakfast bagel</h3><div class="item-meta"><span class="price">$3.50</span><button class="add" data-name="Breakfast bagel" data-price="3.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🥙</div><h3>Chicken pita</h3><div class="item-meta"><span class="price">$4.25</span><button class="add" data-name="Chicken pita" data-price="4.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🥖</div><h3>Ham and cheese roll</h3><div class="item-meta"><span class="price">$3.75</span><button class="add" data-name="Ham and cheese roll" data-price="3.75">+</button></div></article>
+          <article class="item"><div class="item-icon">🥬</div><h3>Garden salad</h3><div class="item-meta"><span class="price">$3.50</span><button class="add" data-name="Garden salad" data-price="3.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🍚</div><h3>Rice bowl</h3><div class="item-meta"><span class="price">$4.25</span><button class="add" data-name="Rice bowl" data-price="4.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🍜</div><h3>Noodle cup</h3><div class="item-meta"><span class="price">$3.25</span><button class="add" data-name="Noodle cup" data-price="3.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🧆</div><h3>Falafel wrap</h3><div class="item-meta"><span class="price">$4.00</span><button class="add" data-name="Falafel wrap" data-price="4.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🍳</div><h3>Egg and cheese muffin</h3><div class="item-meta"><span class="price">$3.25</span><button class="add" data-name="Egg and cheese muffin" data-price="3.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🥓</div><h3>Bacon breakfast wrap</h3><div class="item-meta"><span class="price">$4.00</span><button class="add" data-name="Bacon breakfast wrap" data-price="4.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🥔</div><h3>Loaded potato cup</h3><div class="item-meta"><span class="price">$3.75</span><button class="add" data-name="Loaded potato cup" data-price="3.75">+</button></div></article>
+          <article class="item"><div class="item-icon">🫔</div><h3>Chicken burrito</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="Chicken burrito" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🥟</div><h3>Veggie dumplings</h3><div class="item-meta"><span class="price">$3.75</span><button class="add" data-name="Veggie dumplings" data-price="3.75">+</button></div></article>
+          <article class="item"><div class="item-icon">🍅</div><h3>Tomato mozzarella sandwich</h3><div class="item-meta"><span class="price">$4.00</span><button class="add" data-name="Tomato mozzarella sandwich" data-price="4.00">+</button></div></article>
+          <article class="item"><div class="item-icon">🥓</div><h3>BLT sandwich</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="BLT sandwich" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🧀</div><h3>Mac and cheese cup</h3><div class="item-meta"><span class="price">$3.50</span><button class="add" data-name="Mac and cheese cup" data-price="3.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🥕</div><h3>Hummus snack box</h3><div class="item-meta"><span class="price">$3.75</span><button class="add" data-name="Hummus snack box" data-price="3.75">+</button></div></article>
+          <article class="item"><div class="item-icon">🐟</div><h3>Tuna salad sandwich</h3><div class="item-meta"><span class="price">$4.25</span><button class="add" data-name="Tuna salad sandwich" data-price="4.25">+</button></div></article>
+          <article class="item"><div class="item-icon">🥦</div><h3>Veggie grain bowl</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="Veggie grain bowl" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🍖</div><h3>BBQ chicken sandwich</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="BBQ chicken sandwich" data-price="4.50">+</button></div></article>
+          <article class="item"><div class="item-icon">🫑</div><h3>Roasted veggie panini</h3><div class="item-meta"><span class="price">$4.25</span><button class="add" data-name="Roasted veggie panini" data-price="4.25">+</button></div></article>
+        </div>
+      </section>
+
+      <section class="pickup-info"><div class="info-card"><h3>Pickup in about 2 minutes</h3><p>Bring your bag to the pickup station by the library doors. Payment is handled there. Today’s payment options: cash or school meal card.</p></div><div class="info-card"><h3>Need an ingredient check?</h3><p>Vegetarian options are marked. For allergies, check the package label or ask the pickup team before choosing.</p></div><div class="info-card map"><div><strong>📍 Library doors</strong><span>Pickup station</span></div></div></section>
+
+      <section class="how" id="how"><div class="step"><span class="step-number">01</span><h3>Order at the table</h3><p>Tap + on anything you want from today’s menu.</p></div><div class="step"><span class="step-number">02</span><h3>Show your bag</h3><p>We’ll have it ready at the library doors.</p></div><div class="step"><span class="step-number">03</span><h3>Pay with cash</h3><p>Pay at the pickup station, then you’re back to class.</p></div></section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div class="drawer" id="drawer"><aside class="drawer-card"><div class="drawer-top"><h2>Your bag</h2><button class="close" id="close-cart" aria-label="Close bag">×</button></div><div id="cart-items"><p class="empty">Your bag is empty. Add a snack and it’ll show up here.</p></div><div class="drink-suggestion"><span>Add a drink to your bag?</span><button id="add-drink">Add water · $1</button></div><button class="clear-cart" id="clear-cart">Clear bag</button><button class="checkout" id="checkout"><span>Show pickup note</span><span id="total">$0.00 →</span></button></aside></div>
+  <script>
+    const cart = [];
+    const drawer = document.querySelector('#drawer');
+    const cartItems = document.querySelector('#cart-items');
+    const count = document.querySelector('#cart-count');
+    const total = document.querySelector('#total');
+    function showToast(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2400); }
+    function renderCart() { count.textContent = cart.length; if (!cart.length) { cartItems.innerHTML = '<p class="empty">Your bag is empty. Add a snack and it’ll show up here.</p>'; total.textContent = '$0.00 →'; return; } const grouped = Object.values(cart.reduce((items, item) => { const key = item.name; items[key] ||= { ...item, quantity: 0 }; items[key].quantity += 1; return items; }, {})); cartItems.innerHTML = grouped.map(item => `<div class="cart-line"><div class="cart-line-info"><span>${item.name}</span><small>$${item.price.toFixed(2)} each</small></div><div class="qty-controls"><button data-action="decrease" data-name="${item.name}" aria-label="Remove one ${item.name}">−</button><strong>${item.quantity}</strong><button data-action="increase" data-name="${item.name}" data-price="${item.price}" aria-label="Add one ${item.name}">+</button></div></div>`).join(''); total.textContent = `$${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)} →`; }
+    document.querySelectorAll('.add').forEach(button => button.addEventListener('click', () => { cart.push({ name: button.dataset.name, price: Number(button.dataset.price) }); renderCart(); showToast(`${button.dataset.name} added`); }));
+    cartItems.addEventListener('click', event => { const button = event.target.closest('button[data-action]'); if (!button) return; const index = cart.findIndex(item => item.name === button.dataset.name); if (button.dataset.action === 'increase') cart.push({ name: button.dataset.name, price: Number(button.dataset.price) }); else if (index !== -1) cart.splice(index, 1); renderCart(); });
+    document.querySelector('#open-cart').addEventListener('click', () => drawer.classList.add('open'));
+    document.querySelector('#close-cart').addEventListener('click', () => drawer.classList.remove('open'));
+    document.querySelector('#clear-cart').addEventListener('click', () => { cart.length = 0; renderCart(); showToast('Bag cleared'); });
+    drawer.addEventListener('click', e => { if (e.target === drawer) drawer.classList.remove('open'); });
+    document.querySelector('#checkout').addEventListener('click', () => { if (!cart.length) showToast('Add something first — you have time for one snack.'); else { drawer.classList.remove('open'); showToast('Bag saved. See you by the library doors!'); } });
+    let activeCategory = 'all';
+    let underTwo = false;
+    function applyFilters() { const query = document.querySelector('#search').value.trim().toLowerCase(); document.querySelectorAll('.item').forEach(item => { const matchesCategory = activeCategory === 'all' || item.dataset.category === activeCategory || !item.dataset.category; const matchesSearch = !query || item.textContent.toLowerCase().includes(query); const price = Number(item.querySelector('.price')?.textContent.replace('$', '')) || 0; const matchesPrice = !underTwo || price < 2; item.style.display = matchesCategory && matchesSearch && matchesPrice ? '' : 'none'; }); }
+    document.querySelectorAll('.filter[data-filter]').forEach(filter => filter.addEventListener('click', () => { document.querySelectorAll('.filter[data-filter]').forEach(f => f.classList.remove('active')); filter.classList.add('active'); activeCategory = filter.dataset.filter; applyFilters(); }));
+    document.querySelector('#search').addEventListener('input', applyFilters);
+    document.querySelector('#under-two').addEventListener('click', event => { underTwo = !underTwo; event.currentTarget.classList.toggle('active', underTwo); applyFilters(); });
+    document.querySelector('#add-drink').addEventListener('click', () => { cart.push({ name: 'Cold water', price: 1 }); renderCart(); showToast('Cold water added'); });
+  </script>
+</body>
+</html>
