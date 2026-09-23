@@ -139,7 +139,7 @@
     <main>
       <section class="hero">
         <div>
-          <div class="eyebrow"><span class="dot"></span> Open now · until 3:30 PM</div>
+          <div class="eyebrow"><span class="dot"></span> <span id="store-status">Checking hours…</span></div>
           <h1>Hungry?<br><span>Handled.</span></h1>
           <p class="hero-copy">Your fastest route to something good. See what’s ready, pick your snack, and swing by the Shack.</p>
           <p class="welcome-note">Something for everyone: vegetarian and allergy-aware picks are marked.</p>
@@ -200,7 +200,7 @@
       </section>
 
       <section id="lunch-menu" style="margin-top: 62px;">
-        <div class="section-head"><div><h2 class="section-title">Lunch menu</h2><span class="section-note">More filling picks for a bigger break.</span></div><span class="eyebrow">Pay at pickup</span></div>
+        <div class="section-head"><div><h2 class="section-title">Lunch menu</h2><span class="section-note">More filling picks for a bigger break.</span></div><span class="eyebrow" id="lunch-status">Checking hours…</span></div>
         <div class="combo-grid"><div class="combo"><strong>Lunch + drink</strong><span>Turkey sandwich + water · $5.00</span></div><div class="combo"><strong>Veggie combo</strong><span>Veggie wrap + iced tea · $5.00</span></div><div class="combo"><strong>Pizza break</strong><span>Pizza slice + fruit cup · $4.50</span></div></div>
         <div class="menu-grid">
           <article class="item"><div class="item-icon">🥪</div><h3>Turkey sandwich</h3><div class="item-meta"><span class="price">$4.50</span><button class="add" data-name="Turkey sandwich" data-price="4.50">+</button></div></article>
@@ -238,7 +238,7 @@
       </section>
 
       <section id="breakfast-menu" style="margin-top: 62px;">
-        <div class="section-head"><div><h2 class="section-title">Breakfast menu</h2><span class="section-note">Quick fuel before the school day starts.</span></div><span class="eyebrow">Available mornings</span></div>
+        <div class="section-head"><div><h2 class="section-title">Breakfast menu</h2><span class="section-note">Quick fuel before the school day starts.</span></div><span class="eyebrow" id="breakfast-status">Checking hours…</span></div>
         <div class="menu-grid">
           <article class="item"><div class="item-icon">🥣</div><h3>Oatmeal cup</h3><span class="tag">Vegetarian</span><div class="item-meta"><span class="price">$2.50</span><button class="add" data-name="Oatmeal cup" data-price="2.50">+</button></div></article>
           <article class="item"><div class="item-icon">🥞</div><h3>Pancake stack</h3><div class="item-meta"><span class="price">$3.00</span><button class="add" data-name="Pancake stack" data-price="3.00">+</button></div></article>
@@ -264,7 +264,7 @@
       </section>
 
       <section id="dinner-menu" style="margin-top: 62px;">
-        <div class="section-head"><div><h2 class="section-title">Dinner menu</h2><span class="section-note">Warm, filling options for after-school pickup.</span></div><span class="eyebrow">Available afternoons</span></div>
+        <div class="section-head"><div><h2 class="section-title">Dinner menu</h2><span class="section-note">Warm, filling options for after-school pickup.</span></div><span class="eyebrow" id="dinner-status">Checking hours…</span></div>
         <div class="menu-grid">
           <article class="item"><div class="item-icon">🥩</div><h3>Steak dinner</h3><div class="item-meta"><span class="price">$10.00</span><button class="add" data-name="Steak dinner" data-price="10.00">+</button></div></article>
           <article class="item"><div class="item-icon">🍝</div><h3>Spaghetti bowl</h3><div class="item-meta"><span class="price">$5.00</span><button class="add" data-name="Spaghetti bowl" data-price="5.00">+</button></div></article>
@@ -304,6 +304,11 @@
     const cartItems = document.querySelector('#cart-items');
     const count = document.querySelector('#cart-count');
     const total = document.querySelector('#total');
+    const schedules = { breakfast: [7 * 60 + 30, 10 * 60 + 30], lunch: [10 * 60 + 30, 13 * 60 + 30], dinner: [13 * 60 + 30, 15 * 60 + 30] };
+    function formatTime(minutes) { const hour = Math.floor(minutes / 60); const minute = String(minutes % 60).padStart(2, '0'); const suffix = hour >= 12 ? 'PM' : 'AM'; const displayHour = hour % 12 || 12; return `${displayHour}:${minute} ${suffix}`; }
+    function updateAvailability() { const now = new Date(); const current = now.getHours() * 60 + now.getMinutes(); const weekend = now.getDay() === 0 || now.getDay() === 6; const storeStart = schedules.breakfast[0]; const storeEnd = schedules.dinner[1]; const storeStatus = document.querySelector('#store-status'); if (weekend) { storeStatus.textContent = 'Closed on weekends · opens Monday at 7:30 AM'; Object.keys(schedules).forEach(name => { const target = document.querySelector(`#${name}-status`); if (target) target.textContent = 'Closed on weekends'; }); return; } storeStatus.textContent = current >= storeStart && current < storeEnd ? `Open now · until ${formatTime(storeEnd)}` : current < storeStart ? `Closed now · opens at ${formatTime(storeStart)}` : `Closed now · opens tomorrow at ${formatTime(storeStart)}`; Object.entries(schedules).forEach(([name, [start, end]]) => { const target = document.querySelector(`#${name}-status`); if (!target) return; target.textContent = current >= start && current < end ? `Available now · until ${formatTime(end)}` : current < start ? `Starts at ${formatTime(start)}` : `Ended for today`; }); }
+    updateAvailability();
+    setInterval(updateAvailability, 60000);
     function showToast(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2400); }
     function renderCart() { count.textContent = cart.length; if (!cart.length) { cartItems.innerHTML = '<p class="empty">Your bag is empty. Add a snack and it’ll show up here.</p>'; total.textContent = '$0.00 →'; return; } const grouped = Object.values(cart.reduce((items, item) => { const key = item.name; items[key] ||= { ...item, quantity: 0 }; items[key].quantity += 1; return items; }, {})); cartItems.innerHTML = grouped.map(item => `<div class="cart-line"><div class="cart-line-info"><span>${item.name}</span><small>$${item.price.toFixed(2)} each</small></div><div class="qty-controls"><button data-action="decrease" data-name="${item.name}" aria-label="Remove one ${item.name}">−</button><strong>${item.quantity}</strong><button data-action="increase" data-name="${item.name}" data-price="${item.price}" aria-label="Add one ${item.name}">+</button></div></div>`).join(''); total.textContent = `$${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)} →`; }
     document.querySelectorAll('.add').forEach(button => button.addEventListener('click', () => { cart.push({ name: button.dataset.name, price: Number(button.dataset.price) }); renderCart(); showToast(`${button.dataset.name} added`); }));
