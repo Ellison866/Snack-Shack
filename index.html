@@ -77,6 +77,7 @@
     .sold-out { opacity: .48; position: relative; }
     .sold-out:after { content: 'Sold out'; position: absolute; top: 10px; right: 10px; padding: 5px 7px; border-radius: 99px; background: var(--ink); color: white; font-size: 10px; font-weight: 700; }
     .sold-out .add { pointer-events: none; background: var(--line); }
+    .add:disabled { cursor: not-allowed; opacity: .7; }
     .pickup-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 13px; margin-top: 13px; }
     .info-card { padding: 18px; background: white; border: 1px solid var(--line); border-radius: 16px; }
     .info-card h3 { margin: 0 0 7px; font: 700 18px 'Space Grotesk', sans-serif; }
@@ -161,7 +162,7 @@
           <article class="item" data-category="sweet"><div class="item-icon">🍪</div><h3>Chocolate chip cookie</h3><span class="tag">Popular</span><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Chocolate chip cookie" data-price="1.25">+</button></div></article>
           <article class="item" data-category="salty"><div class="item-icon">🥨</div><h3>Soft pretzel</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Soft pretzel" data-price="1.50">+</button></div></article>
           <article class="item" data-category="fresh"><div class="item-icon">🍎</div><h3>Apple</h3><span class="tag">Vegetarian</span><div class="item-meta"><span class="price">$0.75</span><button class="add" data-name="Apple" data-price="0.75">+</button></div></article>
-          <article class="item sold-out" data-category="fresh"><div class="item-icon">🧃</div><h3>Fruit punch</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Fruit punch" data-price="1.50">+</button></div></article>
+          <article class="item sold-out" data-category="fresh"><div class="item-icon">🧃</div><h3>Fruit punch</h3><div class="item-meta"><span class="price">$1.50</span><button class="add" data-name="Fruit punch" data-price="1.50" disabled aria-disabled="true" aria-label="Fruit punch is sold out">+</button></div></article>
           <article class="item" data-category="salty"><div class="item-icon">🥔</div><h3>Sea salt chips</h3><div class="item-meta"><span class="price">$1.25</span><button class="add" data-name="Sea salt chips" data-price="1.25">+</button></div></article>
           <article class="item" data-category="sweet"><div class="item-icon">🍫</div><h3>Chewy granola bar</h3><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Chewy granola bar" data-price="1.00">+</button></div></article>
           <article class="item" data-category="fresh"><div class="item-icon">🥤</div><h3>Cold water</h3><span class="tag allergy">Dairy-free</span><div class="item-meta"><span class="price">$1.00</span><button class="add" data-name="Cold water" data-price="1.00">+</button></div></article>
@@ -297,7 +298,7 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
-  <div class="drawer" id="drawer"><aside class="drawer-card"><div class="drawer-top"><h2>Your bag</h2><button class="close" id="close-cart" aria-label="Close bag">×</button></div><div id="cart-items"><p class="empty">Your bag is empty. Add a snack and it’ll show up here.</p></div><div class="drink-suggestion"><span>Add a drink to your bag?</span><button id="add-drink">Add water · $1</button></div><button class="clear-cart" id="clear-cart">Clear bag</button><button class="checkout" id="checkout"><span>Show pickup note</span><span id="total">$0.00 →</span></button></aside></div>
+  <div class="drawer" id="drawer"><aside class="drawer-card"><div class="drawer-top"><h2>Your bag</h2><button class="close" id="close-cart" aria-label="Close bag">×</button></div><div id="cart-items"><p class="empty">Your bag is empty. Add a snack and it’ll show up here.</p></div><div class="drink-suggestion"><span>Add a drink to your bag?</span><button id="add-drink">Add water · $1</button></div><button class="clear-cart" id="clear-cart">Clear bag</button><button class="checkout" id="checkout"><span>Show pickup directions</span><span id="total">$0.00 →</span></button></aside></div>
   <script>
     const cart = [];
     const drawer = document.querySelector('#drawer');
@@ -317,7 +318,7 @@
     document.querySelector('#close-cart').addEventListener('click', () => drawer.classList.remove('open'));
     document.querySelector('#clear-cart').addEventListener('click', () => { cart.length = 0; renderCart(); showToast('Bag cleared'); });
     drawer.addEventListener('click', e => { if (e.target === drawer) drawer.classList.remove('open'); });
-    document.querySelector('#checkout').addEventListener('click', () => { if (!cart.length) showToast('Add something first — you have time for one snack.'); else { drawer.classList.remove('open'); showToast('Bag saved. See you by the library doors!'); } });
+    document.querySelector('#checkout').addEventListener('click', () => { if (!cart.length) showToast('Add something first — you have time for one snack.'); else { drawer.classList.remove('open'); showToast('Pickup is by the library doors. Pay with cash or your school meal card.'); } });
     let activeCategory = 'all';
     let underTwo = false;
     function applyFilters() { const query = document.querySelector('#search').value.trim().toLowerCase(); document.querySelectorAll('.item').forEach(item => { const matchesCategory = activeCategory === 'all' || item.dataset.category === activeCategory || !item.dataset.category; const matchesSearch = !query || item.textContent.toLowerCase().includes(query); const price = Number(item.querySelector('.price')?.textContent.replace('$', '')) || 0; const matchesPrice = !underTwo || price < 2; item.style.display = matchesCategory && matchesSearch && matchesPrice ? '' : 'none'; }); }
