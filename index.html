@@ -117,7 +117,7 @@
   <div class="shell">
     <header>
       <div class="brand"><span class="brand-mark">+</span> Snack Shack</div>
-      <nav><a href="#menu">Menu</a><a href="#breakfast-menu">Breakfast</a><a href="#dinner-menu">Dinner</a><a href="#how">How it works</a><button class="cart-btn" id="open-cart">Bag <span class="cart-count" id="cart-count">0</span></button></nav>
+      <nav><a href="#menu">Menu</a><a href="#breakfast-menu">Breakfast</a><a href="#dinner-menu">Dinner</a><a href="#how">Pickup</a><button class="cart-btn" id="open-cart">Bag <span class="cart-count" id="cart-count">0</span></button></nav>
     </header>
 
     <main>
@@ -127,7 +127,6 @@
           <h1>Menu<br><span>& pickup.</span></h1>
           <p class="hero-copy">Today’s menu, prices, hours, and pickup information.</p>
           <p class="welcome-note">Vegetarian and dairy-free labels are shown on applicable items.</p>
-          <div class="hero-actions"><button class="primary" onclick="document.querySelector('#menu').scrollIntoView({behavior:'smooth'})">View menu <span>↓</span></button><button class="secondary" onclick="showToast('Pickup: library doors.')">Pickup location ↗</button></div>
         </div>
         <div class="visual" aria-label="Snack Shack menu board graphic">
           <div class="board"><small>Pickup information</small><h2>LIBRARY<br>DOORS.</h2><div class="board-row"><span>Typical time</span><span>2 min</span></div><div class="board-row"><span>Payment</span><span>Cash/card</span></div><div class="board-row"><span>Menu</span><span>Today</span></div></div>
@@ -269,14 +268,14 @@
         </div>
       </section>
 
-      <section class="pickup-info"><div class="info-card"><h3>Pickup in about 2 minutes</h3><p>Bring your bag to the pickup station by the library doors. Payment is handled there. Today’s payment options: cash or school meal card.</p></div><div class="info-card"><h3>Need an ingredient check?</h3><p>Vegetarian options are marked. For allergies, check the package label or ask the pickup team before choosing.</p></div><div class="info-card map"><div><strong>📍 Library doors</strong><span>Pickup station</span></div></div></section>
+      <section class="pickup-info"><div class="info-card"><h3>Pickup time</h3><p>Typical pickup time: about 2 minutes.</p></div><div class="info-card"><h3>Ingredient information</h3><p>Vegetarian labels are shown. Ingredient details are available on package labels and from pickup staff.</p></div><div class="info-card map"><div><strong>📍 Library doors</strong><span>Pickup station</span></div></div></section>
 
-      <section class="how" id="how"><div class="step"><span class="step-number">01</span><h3>Select items</h3><p>Use + to choose items from the menu.</p></div><div class="step"><span class="step-number">02</span><h3>Show your bag</h3><p>Bring it to the library doors.</p></div><div class="step"><span class="step-number">03</span><h3>Payment</h3><p>Pay with cash or a school meal card.</p></div></section>
+      <section class="how" id="how"><div class="step"><span class="step-number">01</span><h3>Menu</h3><p>Items and prices are listed above.</p></div><div class="step"><span class="step-number">02</span><h3>Pickup</h3><p>Library doors · typical time: 2 minutes.</p></div><div class="step"><span class="step-number">03</span><h3>Payment</h3><p>Cash or school meal card.</p></div></section>
     </main>
   </div>
 
   <div class="toast" id="toast" role="status"></div>
-  <div class="drawer" id="drawer"><aside class="drawer-card"><div class="drawer-top"><h2>Your bag</h2><button class="close" id="close-cart" aria-label="Close bag">×</button></div><div id="cart-items"><p class="empty">Your bag is empty. Add a menu item.</p></div><button class="clear-cart" id="clear-cart">Clear bag</button><button class="checkout" id="checkout"><span>Show pickup directions</span><span id="total">$0.00 →</span></button></aside></div>
+  <div class="drawer" id="drawer"><aside class="drawer-card"><div class="drawer-top"><h2>Your bag</h2><button class="close" id="close-cart" aria-label="Close bag">×</button></div><div id="cart-items"><p class="empty">No items selected.</p></div><button class="clear-cart" id="clear-cart">Clear bag</button><button class="checkout" id="checkout"><span>Pickup details</span><span id="total">$0.00 →</span></button></aside></div>
   <script>
     const cart = [];
     const drawer = document.querySelector('#drawer');
@@ -289,14 +288,14 @@
     updateAvailability();
     setInterval(updateAvailability, 60000);
     function showToast(message) { const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2400); }
-    function renderCart() { count.textContent = cart.length; if (!cart.length) { cartItems.innerHTML = '<p class="empty">Your bag is empty. Add a menu item.</p>'; total.textContent = '$0.00 →'; return; } const grouped = Object.values(cart.reduce((items, item) => { const key = item.name; items[key] ||= { ...item, quantity: 0 }; items[key].quantity += 1; return items; }, {})); cartItems.innerHTML = grouped.map(item => `<div class="cart-line"><div class="cart-line-info"><span>${item.name}</span><small>$${item.price.toFixed(2)} each</small></div><div class="qty-controls"><button data-action="decrease" data-name="${item.name}" aria-label="Remove one ${item.name}">−</button><strong>${item.quantity}</strong><button data-action="increase" data-name="${item.name}" data-price="${item.price}" aria-label="Add one ${item.name}">+</button></div></div>`).join(''); total.textContent = `$${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)} →`; }
+    function renderCart() { count.textContent = cart.length; if (!cart.length) { cartItems.innerHTML = '<p class="empty">No items selected.</p>'; total.textContent = '$0.00 →'; return; } const grouped = Object.values(cart.reduce((items, item) => { const key = item.name; items[key] ||= { ...item, quantity: 0 }; items[key].quantity += 1; return items; }, {})); cartItems.innerHTML = grouped.map(item => `<div class="cart-line"><div class="cart-line-info"><span>${item.name}</span><small>$${item.price.toFixed(2)} each</small></div><div class="qty-controls"><button data-action="decrease" data-name="${item.name}" aria-label="Remove one ${item.name}">−</button><strong>${item.quantity}</strong><button data-action="increase" data-name="${item.name}" data-price="${item.price}" aria-label="Add one ${item.name}">+</button></div></div>`).join(''); total.textContent = `$${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)} →`; }
     document.querySelectorAll('.add').forEach(button => button.addEventListener('click', () => { cart.push({ name: button.dataset.name, price: Number(button.dataset.price) }); renderCart(); showToast(`${button.dataset.name} added`); }));
     cartItems.addEventListener('click', event => { const button = event.target.closest('button[data-action]'); if (!button) return; const index = cart.findIndex(item => item.name === button.dataset.name); if (button.dataset.action === 'increase') cart.push({ name: button.dataset.name, price: Number(button.dataset.price) }); else if (index !== -1) cart.splice(index, 1); renderCart(); });
     document.querySelector('#open-cart').addEventListener('click', () => drawer.classList.add('open'));
     document.querySelector('#close-cart').addEventListener('click', () => drawer.classList.remove('open'));
     document.querySelector('#clear-cart').addEventListener('click', () => { cart.length = 0; renderCart(); showToast('Bag cleared'); });
     drawer.addEventListener('click', e => { if (e.target === drawer) drawer.classList.remove('open'); });
-    document.querySelector('#checkout').addEventListener('click', () => { if (!cart.length) showToast('Choose an item first.'); else { drawer.classList.remove('open'); showToast('Pickup: library doors. Payment: cash or school meal card.'); } });
+    document.querySelector('#checkout').addEventListener('click', () => { if (!cart.length) showToast('No items selected.'); else { drawer.classList.remove('open'); showToast('Pickup: library doors · Payment: cash or school meal card.'); } });
     let activeCategory = 'all';
     let underTwo = false;
     function applyFilters() { const query = document.querySelector('#search').value.trim().toLowerCase(); document.querySelectorAll('.item').forEach(item => { const matchesCategory = activeCategory === 'all' || item.dataset.category === activeCategory || !item.dataset.category; const matchesSearch = !query || item.textContent.toLowerCase().includes(query); const price = Number(item.querySelector('.price')?.textContent.replace('$', '')) || 0; const matchesPrice = !underTwo || price < 2; item.style.display = matchesCategory && matchesSearch && matchesPrice ? '' : 'none'; }); }
