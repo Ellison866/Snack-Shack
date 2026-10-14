@@ -7,7 +7,7 @@
   <title>Snack Shack — Grab it. Go.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #112021;
@@ -21,13 +21,13 @@
       --shadow: 0 20px 55px rgba(18, 47, 43, .12);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM Sans', sans-serif; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'Manrope', sans-serif; }
     button, input { font: inherit; }
     button { cursor: pointer; border: 0; }
     button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
     .shell { max-width: 1180px; margin: auto; padding: 24px 28px 56px; }
     header { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -.04em; }
+    .brand { display: flex; align-items: center; gap: 11px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -.04em; }
     .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; background: var(--ink); color: var(--lime); border-radius: 11px; font-size: 19px; transform: rotate(-7deg); }
     nav { display: flex; align-items: center; gap: 20px; }
     nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
@@ -36,7 +36,7 @@
     .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(330px, .95fr); gap: 56px; align-items: center; padding: 76px 0 58px; }
     .eyebrow { display: inline-flex; align-items: center; gap: 7px; color: #356061; background: var(--blue); padding: 7px 11px; border-radius: 99px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
     .dot { width: 7px; height: 7px; background: #279b67; border-radius: 50%; box-shadow: 0 0 0 4px rgba(39,155,103,.14); }
-    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(46px, 7vw, 84px); line-height: .93; letter-spacing: -.075em; max-width: 630px; margin: 22px 0 21px; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(46px, 7vw, 84px); line-height: .93; letter-spacing: -.075em; max-width: 630px; margin: 22px 0 21px; }
     h1 span { color: var(--orange); }
     .hero-copy { color: var(--muted); font-size: 18px; line-height: 1.55; max-width: 480px; margin: 0; }
     .welcome-note { margin: 12px 0 0; color: #356061; font-size: 13px; font-weight: 700; }
@@ -50,10 +50,10 @@
     .visual:before { content: ''; position: absolute; width: 350px; height: 350px; right: -90px; top: -100px; border-radius: 50%; background: rgba(255,255,255,.18); }
     .board { position: absolute; left: 33px; top: 34px; width: min(76%, 290px); padding: 19px; color: var(--ink); background: var(--lime); transform: rotate(-4deg); box-shadow: 13px 16px 0 rgba(17,32,33,.15); }
     .board small { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-    .board h2 { margin: 15px 0 22px; font: 700 43px/.9 'Space Grotesk', sans-serif; letter-spacing: -.07em; }
+    .board h2 { margin: 15px 0 22px; font: 700 43px/.9 'Syne', sans-serif; letter-spacing: -.07em; }
     .board-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid rgba(17,32,33,.25); font-size: 13px; font-weight: 700; }
     .section-head { display: flex; justify-content: space-between; align-items: end; margin: 17px 0 20px; }
-    h2.section-title { margin: 0; font: 700 32px 'Space Grotesk', sans-serif; letter-spacing: -.06em; }
+    h2.section-title { margin: 0; font: 700 32px 'Syne', sans-serif; letter-spacing: -.06em; }
     .section-note { color: var(--muted); font-size: 14px; }
     .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
     .filter { white-space: nowrap; padding: 9px 14px; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; font-size: 13px; font-weight: 700; }
@@ -69,7 +69,7 @@
     .add:disabled { cursor: not-allowed; opacity: .7; }
     .pickup-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 13px; margin-top: 13px; }
     .info-card { padding: 18px; background: white; border: 1px solid var(--line); border-radius: 16px; }
-    .info-card h3 { margin: 0 0 7px; font: 700 18px 'Space Grotesk', sans-serif; }
+    .info-card h3 { margin: 0 0 7px; font: 700 18px 'Syne', sans-serif; }
     .info-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
     .map { min-height: 120px; display: grid; place-items: center; text-align: center; background: repeating-linear-gradient(135deg, #e4f3e8 0 9px, #d6ebdf 9px 11px); color: #2c6343; }
     .map strong { display: block; font-size: 18px; }
@@ -87,7 +87,7 @@
     .add:hover { background: var(--orange); }
     .how { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 13px; margin-top: 62px; }
     .step { padding: 19px; background: var(--ink); color: white; border-radius: 17px; min-height: 126px; }
-    .step-number { color: var(--lime); font: 700 25px 'Space Grotesk', sans-serif; }
+    .step-number { color: var(--lime); font: 700 25px 'Syne', sans-serif; }
     .step h3 { margin: 13px 0 5px; font-size: 16px; }
     .step p { margin: 0; color: #b7c3c1; font-size: 13px; line-height: 1.45; }
     .toast { position: fixed; left: 50%; bottom: 24px; z-index: 4; padding: 13px 17px; border-radius: 12px; background: var(--ink); color: white; box-shadow: var(--shadow); transform: translate(-50%, 130px); transition: transform .25s; font-size: 14px; }
@@ -96,7 +96,7 @@
     .drawer.open { display: block; }
     .drawer-card { position: absolute; right: 0; top: 0; height: 100%; width: min(400px, 100%); padding: 28px; display: flex; flex-direction: column; background: var(--paper); box-shadow: -12px 0 45px rgba(0,0,0,.16); }
     .drawer-top { display: flex; justify-content: space-between; align-items: center; }
-    .drawer h2 { margin: 0; font: 700 28px 'Space Grotesk', sans-serif; }
+    .drawer h2 { margin: 0; font: 700 28px 'Syne', sans-serif; }
     .close { width: 34px; height: 34px; border-radius: 50%; background: var(--line); font-size: 20px; }
     #cart-items { flex: 1; min-height: 0; margin: 26px 0; display: grid; align-content: start; gap: 10px; overflow-y: auto; padding-right: 5px; }
     .cart-line { display: flex; justify-content: space-between; gap: 10px; background: white; border-radius: 12px; padding: 13px; font-size: 14px; }
